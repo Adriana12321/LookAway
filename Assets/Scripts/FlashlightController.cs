@@ -5,12 +5,12 @@ public class FlashlightFlicker : MonoBehaviour
     public float flickerIntensity = 0.5f; // Intensity variation
     public float flickerSpeed = 0.1f; // Speed of flickering
 
-    private Light flashlight;
+    public Light flashlight;
     private float baseIntensity;
 
     void Start()
     {
-        flashlight = GetComponent<Light>();
+        //flashlight = GetComponent<Light>();       player doesnt have a light component, u need to drag it in the inspector...
         baseIntensity = flashlight.intensity;
     }
 
