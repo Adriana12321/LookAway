@@ -4878,8 +4878,8 @@ GameObject:
   - component: {fileID: 937146844}
   - component: {fileID: 937146843}
   - component: {fileID: 937146848}
-  - component: {fileID: 937146847}
   - component: {fileID: 937146849}
+  - component: {fileID: 937146850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4976,26 +4976,6 @@ Transform:
   - {fileID: 1413498429}
   m_Father: {fileID: 1805122153}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &937146847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 937146842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790816021688c4b6b97f34bfdfdbd61a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkingSpeed: 15
-  runningSpeed: 20
-  jumpSpeed: 8
-  gravity: 20
-  playerCamera: {fileID: 1413498432}
-  lookSpeed: 2
-  lookXLimit: 75
-  canMove: 1
 --- !u!143 &937146848
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5037,6 +5017,26 @@ MonoBehaviour:
   flickerIntensity: 0.5
   flickerSpeed: 0.1
   flashlight: {fileID: 850083942}
+--- !u!114 &937146850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937146842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6a4c4a77d9808439a4db93def5a949, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkingSpeed: 7.5
+  runningSpeed: 11.5
+  jumpSpeed: 8
+  gravity: 20
+  playerCamera: {fileID: 1413498432}
+  lookSpeed: 2
+  lookXLimit: 45
+  canMove: 1
 --- !u!65 &950695271
 BoxCollider:
   m_ObjectHideFlags: 0
