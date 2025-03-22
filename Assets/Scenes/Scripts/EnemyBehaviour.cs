@@ -9,18 +9,26 @@ public class EnemyBehaviour : MonoBehaviour
     public EnemyBaseState currentState;
     
     public ChaseState chaseState = new ChaseState();
-    public IddleState iddleState = new IddleState();
+    public IdleState IdleState = new IdleState();
     public TeleportState teleportState = new TeleportState();
     public PatrolState patrolState = new PatrolState();
     
     private NavMeshAgent _agent;
     private Transform _target;
+    
+    [Header("Detection Settings")]
+    [SerializeField] private float detectionDistance = 10f;
+    [SerializeField] private float fieldOfViewAngle = 60f; // Total FOV in degrees
+    [SerializeField] private Color debugRayColor = Color.red;
+    
 
     [SerializeField]
     private float speed = 10;
+
+    public string state = string.Empty;
     
     [SerializeField]
-    List<Transform> waypoints = new List<Transform>();
+    List<Transform> waypoints;
         
     void Start()
     {
@@ -36,42 +44,85 @@ public class EnemyBehaviour : MonoBehaviour
     void Update()
     {
         currentState.UpdateState(this);
-        
+        state = currentState.ToString();
     }
 
+    public void SwitchState(EnemyBaseState state){
+
+        currentState.ExitState(this);
+        currentState = state;
+        state.EnterState(this);
+    }
+    
+    public bool LookForPlayer()
+    {
+        if (_target == null)
+            return false;
+
+        // Calculate direction from enemy to player
+        Vector3 directionToPlayer = (_target.position - transform.position).normalized;
+        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+        // Draw debug rays for visualization
+        float halfFOV = fieldOfViewAngle * 0.5f;
+        Vector3 leftBoundary = Quaternion.Euler(0, -halfFOV, 0) * transform.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, halfFOV, 0) * transform.forward;
+
+        Debug.DrawRay(transform.position, leftBoundary * detectionDistance, Color.green);
+        Debug.DrawRay(transform.position, rightBoundary * detectionDistance, Color.green);
+        Debug.DrawRay(transform.position, transform.forward * detectionDistance, Color.red); // Forward vision ray
+
+        // Check if the player is within the field of view
+        if (angleToPlayer <= halfFOV)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, directionToPlayer, out hit, detectionDistance))
+            {
+                // Player is detected if the raycast hits them
+                if (hit.transform == _target)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
    public Transform GetPlayerTransform() => PlayerController.Instance.transform;
-
-
-   #region Navigation
-   public void ChasePlayer()
+   
+   public EnemyBaseState GetRandomState(float patrolWeight, float teleportWeight, float idleWeight)
    {
-       speed = 20;
-       _agent.destination = _target.position;
-   }
+       float totalWeight = patrolWeight + teleportWeight + idleWeight;
+       float randomValue = Random.value * totalWeight; // Random.value gives [0, 1)
 
-
-   public void StopMoving()
-   {
-       speed = 0;
-       _agent.speed = 0f;
-   }
-   public void SetPatrol()
-   {
-       if(waypoints.Count > 0)
+       if (randomValue < patrolWeight)
        {
-           speed = 10;
-           int point = Random.Range(0, waypoints.Count);
-           _agent.SetDestination(waypoints[point].position);
+           return patrolState;
+       }
+       else if (randomValue < patrolWeight + teleportWeight)
+       {
+           return teleportState;
        }
        else
        {
-           Debug.Log("No waypoints in list!");
+           return IdleState;
        }
    }
+
+   #region Navigation
+
+   public Vector3 GetRandomWayPoint()
+   {
+       if (waypoints.Count <= 0) return Vector3.zero;
+       int point = Random.Range(0, waypoints.Count);
+       Debug.Log(point);
+       return waypoints[point].position;
+   }
    
-   
-   
-   
+   public bool WaypointsExist() => waypoints.Count > 0;
+
+   public NavMeshAgent GetNavAgent() => _agent;
    
    #endregion
 }

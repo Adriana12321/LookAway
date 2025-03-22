@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1748136912093129040}
   - component: {fileID: 3697777335628628723}
   - component: {fileID: 1902745200181269512}
-  - component: {fileID: 2129699663689026639}
+  - component: {fileID: 7681441557255451653}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -152,7 +152,7 @@ MonoBehaviour:
   flickerIntensity: 0.5
   flickerSpeed: 0.1
   flashlight: {fileID: 4823525031220710364}
---- !u!114 &2129699663689026639
+--- !u!114 &7681441557255451653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

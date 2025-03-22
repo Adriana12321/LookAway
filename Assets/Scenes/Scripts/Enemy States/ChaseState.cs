@@ -4,17 +4,17 @@
     {
         public override void EnterState(EnemyBehaviour context)
         {
-            throw new System.NotImplementedException();
+            context.GetNavAgent().SetDestination(context.GetPlayerTransform().position);
         }
 
         public override void UpdateState(EnemyBehaviour context)
         {
-            throw new System.NotImplementedException();
+            context.GetNavAgent().SetDestination(context.GetPlayerTransform().position);
         }
 
         public override void ExitState(EnemyBehaviour context)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }
