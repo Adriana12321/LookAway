@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class HeadMovement : MonoBehaviour
 {
-    public Transform head;  // Assign the head or camera transform
-    public float rotationFactor = 5f; // Adjust sensitivity
+    public Transform head;  
+    public float rotationFactor = 5f;
 
     void Update()
     {
