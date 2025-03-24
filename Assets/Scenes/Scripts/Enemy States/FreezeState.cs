@@ -2,17 +2,22 @@
 
 namespace Scenes.Scripts.Enemy_States
 {
-    public class ChaseState: EnemyBaseState
+    public class FreezeState: EnemyBaseState
     {
+        private float timer;
         public override void EnterState(EnemyBehaviour context)
         {
-            context.GetNavAgent().SetDestination(context.GetPlayerTransform().position);
+            context.GetNavAgent().ResetPath();
         }
 
         public override void UpdateState(EnemyBehaviour context)
         {
-            Debug.Log("Chase");
-            context.GetNavAgent().SetDestination(context.GetPlayerTransform().position);
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                context.SwitchState(context.teleportState);
+            }
         }
 
         public override void ExitState(EnemyBehaviour context)

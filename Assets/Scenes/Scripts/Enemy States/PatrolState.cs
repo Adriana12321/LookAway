@@ -19,8 +19,8 @@ namespace Scenes.Scripts.Enemy_States
 
         public override void UpdateState(EnemyBehaviour context)
         {
-
-            if (context.LookForPlayer())
+            
+            if (context.LookForPlayer()||context.DetectPlayerNearby())
             {
                 context.SwitchState(context.chaseState);
             }

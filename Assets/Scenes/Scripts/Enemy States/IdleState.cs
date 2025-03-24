@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 namespace Scenes.Scripts.Enemy_States
 {
-    public class IdleState : EnemyBaseState
+    public class IdleState : EnemyBaseState //handle animations as well 
     {
         float idleTimer;
         public override void EnterState(EnemyBehaviour context)
@@ -17,6 +17,11 @@ namespace Scenes.Scripts.Enemy_States
         {
             idleTimer -= Time.deltaTime;    //waiting for random amount of time
             
+            if (context.LookForPlayer()||context.DetectPlayerNearby())
+            {
+                context.SwitchState(context.chaseState);
+            }
+            
             if(idleTimer <= 0) //when timer ends
             {
                EnemyBaseState nextState = context.GetRandomState(
@@ -26,7 +31,7 @@ namespace Scenes.Scripts.Enemy_States
                context.SwitchState(nextState);
             }
         }
-
+        
         public override void ExitState(EnemyBehaviour context)
         {
             

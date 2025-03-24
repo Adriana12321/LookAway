@@ -20,6 +20,12 @@ namespace Scenes.Scripts.Enemy_States
         {
             timer -= Time.deltaTime;
 
+
+            if (context.LookForPlayer()||context.DetectPlayerNearby())
+            {
+                context.SwitchState(context.chaseState);
+            }
+            
             if (timer <= 0)
             {
                 TeleportToRandomNavMeshPoint();

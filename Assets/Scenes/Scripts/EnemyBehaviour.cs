@@ -15,6 +15,7 @@ public class EnemyBehaviour : MonoBehaviour
     
     private NavMeshAgent _agent;
     private Transform _target;
+    public float radius = 5f;
     
     [Header("Detection Settings")]
     [SerializeField] private float detectionDistance = 10f;
@@ -53,7 +54,6 @@ public class EnemyBehaviour : MonoBehaviour
         currentState = state;
         state.EnterState(this);
     }
-    
     public bool LookForPlayer()
     {
         if (_target == null)
@@ -88,10 +88,8 @@ public class EnemyBehaviour : MonoBehaviour
 
         return false;
     }
-    
-   public Transform GetPlayerTransform() => PlayerController.Instance.transform;
-   
-   public EnemyBaseState GetRandomState(float patrolWeight, float teleportWeight, float idleWeight)
+    public Transform GetPlayerTransform() => PlayerController.Instance.transform;
+    public EnemyBaseState GetRandomState(float patrolWeight, float teleportWeight, float idleWeight)
    {
        float totalWeight = patrolWeight + teleportWeight + idleWeight;
        float randomValue = Random.value * totalWeight; // Random.value gives [0, 1)
@@ -110,7 +108,27 @@ public class EnemyBehaviour : MonoBehaviour
        }
    }
 
-   #region Navigation
+    public bool DetectPlayerNearby()
+    {
+        
+        if (_target != null)
+        {
+            float distance = Vector3.Distance(transform.position, _target.position);
+            if (distance <= radius)
+            {
+                return true;
+            }
+        }
+        return false;
+
+    }
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    #region Navigation
 
    public Vector3 GetRandomWayPoint()
    {
