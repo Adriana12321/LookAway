@@ -2423,7 +2423,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6b391d912569e43b711880164e702c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionDistance: 10
+  radius: 6.4
+  detectionDistance: 10.86
   fieldOfViewAngle: 85
   debugRayColor: {r: 1, g: 0, b: 0, a: 1}
   speed: 10
